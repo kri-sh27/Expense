@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     if (usernameController.text.toString() == "Krishnat" &&
                         passwordController.text.toString() == "Krishnat") {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
