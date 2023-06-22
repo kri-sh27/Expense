@@ -1,4 +1,5 @@
 import 'package:expense/main.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: 300,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -31,54 +32,50 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 20,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
-                child: TextField(
-                  controller: usernameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                    hintText: 'Enter Your Name',
-                  ),
+              TextField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User Name',
+                  hintText: 'Enter Your Name',
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter Your Password',
-                  ),
+              TextField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  hintText: 'Enter Your Password',
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (usernameController.text.toString() == "Krishnat" &&
-                        passwordController.text.toString() == "Krishnat") {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const MyHomePage(title: "Expense Tracker"),
-                        ),
-                      );
-                    } else {
+              ElevatedButton(
+                onPressed: () {
+                  if (usernameController.text.toString() == "Krishnat" &&
+                      passwordController.text.toString() == "Krishnat") {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const MyHomePage(title: "Expense Tracker"),
+                      ),
+                    );
+                  } else {
+                    if (kDebugMode) {
                       print("error");
                     }
-                  },
-                  child: Text("Login"),
-                ),
+                  }
+                },
+                child: const Text("Login"),
               ),
             ],
           ),
