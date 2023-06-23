@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int totalIncome = 0;
   int totalExpense = 0;
+  int totalSavings = 0;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         totalExpense = totalExpenseAmount.toInt();
         print('Total Income: $totalIncome');
         print('total Expense: $totalExpense');
+        totalSavings = totalIncome - totalExpense;
       });
     } else {
       print('Error: ${response.statusCode}');
@@ -135,25 +137,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            const Card(
-              child: Column(
-                children: [
-                  Text(
-                    'Total Savings',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '\₹2000',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ],
+            InkWell(
+              onTap: () async {
+                await _getData();
+              },
+              child: Card(
+                child: Column(
+                  children: [
+                    Text(
+                      'Total Savings',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '\₹$totalSavings',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 16),
             const Divider(),
-            const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () async {
@@ -172,6 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            const Divider(),
+
             const Text(
               'Graph of Total Income and Total Expense will get added here',
               style: TextStyle(fontSize: 20),
