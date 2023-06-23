@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:expense/screens/totalexpensescreen.dart';
 import 'package:expense/screens/totalincomeScreen.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -11,6 +16,52 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int totalIncome = 0;
+  int totalExpense = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+    print('$totalIncome');
+  }
+
+  Future<void> _getData() async {
+    final url = Uri.https(
+        'expenseapp-25cd7-default-rtdb.firebaseio.com', 'expensapp.json');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print(data);
+      num totalIncomeAmount = 0;
+      num totalExpenseAmount = 0;
+
+      data.values.forEach((value) {
+        if (value['type'] == 'income' &&
+            value['amount'] != null &&
+            value['amount'] is num) {
+          totalIncomeAmount += (value['amount'] as num).toInt();
+        } else if (value['type'] == 'expense' &&
+            value['amount'] != null &&
+            value['amount'] is num) {
+          totalExpenseAmount += (value['amount'] as num).toInt();
+        } else {
+          print('Invalid or null amount value');
+        }
+      });
+
+      setState(() {
+        totalIncome = totalIncomeAmount.toInt();
+        totalExpense = totalExpenseAmount.toInt();
+        print('Total Income: $totalIncome');
+        print('total Expense: $totalExpense');
+      });
+    } else {
+      print('Error: ${response.statusCode}');
+      print('Error response body: ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,16 +86,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                       );
                     },
-                    child: const Card(
+                    child: Card(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             'Total Income',
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(height: 8),
                           Text(
-                            '\₹5000',
+                            '₹$totalIncome',
                             style: TextStyle(fontSize: 24),
                           ),
                         ],
@@ -64,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                       );
                     },
-                    child: const Card(
+                    child: Card(
                       child: Column(
                         children: [
                           Text(
@@ -73,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            '\₹3000',
+                            '\₹$totalExpense',
                             style: TextStyle(fontSize: 24),
                           ),
                         ],
@@ -102,6 +153,25 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 16),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await _getData();
+                  },
+                  child: Text("Check Income"),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _getData();
+                  },
+                  child: Text("Check Expense"),
+                ),
+              ],
+            ),
             const Text(
               'Graph of Total Income and Total Expense will get added here',
               style: TextStyle(fontSize: 20),

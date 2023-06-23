@@ -1,5 +1,6 @@
 import 'package:expense/screens/homescreen.dart';
 import 'package:expense/screens/loginscreen.dart';
+import 'package:expense/screens/splashscreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,16 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(
-        title: "ExpenseTracker Login Screen",
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const SplashScreen());
   }
 }
 
@@ -37,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // return
+    // return SplashScreen();
     return const HomeScreen(title: "Expense Tracker Home Screen");
   }
 }
