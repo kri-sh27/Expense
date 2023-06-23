@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TotalExpenseScreen extends StatefulWidget {
   const TotalExpenseScreen({super.key, required this.title});
@@ -245,8 +247,29 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
           SizedBox(
             height: 50.0,
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                print(amount);
+                print(note);
+                print(selectedDate);
                 if (amount != null) {
+                  final url = Uri.https(
+                      'expenseapp-25cd7-default-rtdb.firebaseio.com',
+                      'expensapp.json');
+
+                  final response = await http.post(
+                    url,
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: json.encode(
+                      {
+                        'amount': amount,
+                        'note': note,
+                        'date': selectedDate.toString(),
+                        'type': "expense"
+                      },
+                    ),
+                  );
                   // DbHelper dbHelper = DbHelper();
                   // dbHelper.addData(amount!, selectedDate, type, note);
                   Navigator.of(context).pop();
