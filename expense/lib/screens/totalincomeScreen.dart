@@ -266,9 +266,6 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                     ),
                   );
 
-                  // http.post(https://expenseapp-25cd7-default-rtdb.firebaseio.com/,)
-                  // DbHelper dbHelper = DbHelper();
-                  // dbHelper.addData(amount!, selectedDate, type, note);
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
