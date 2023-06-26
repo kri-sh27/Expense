@@ -248,37 +248,93 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
             height: 50.0,
             child: ElevatedButton(
               onPressed: () async {
-                print(amount);
-                print(note);
-                print(selectedDate);
                 if (amount != null) {
                   final url = Uri.https(
                       'expenseapp-25cd7-default-rtdb.firebaseio.com',
                       'expensapp.json');
 
-                  final response = await http.post(
-                    url,
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: json.encode(
-                      {
-                        'amount': amount,
-                        'note': note,
-                        'date': selectedDate.toString(),
-                        'type': "expense"
+                  final response = await http.get(url);
+                  final responseData = json.decode(response.body);
+
+                  bool dateExists = false;
+
+                  responseData.forEach((key, value) {
+                    if (value['date'] == selectedDate.toString()) {
+                      dateExists = true;
+                      final existingAmount = value['amount'] as int;
+                      final updatedAmount =
+                          (existingAmount + amount!).toString();
+                      final updatedNote = value['note'] + ", " + note;
+
+                      http.patch(
+                        Uri.https(
+                          'expenseapp-25cd7-default-rtdb.firebaseio.com',
+                          'expensapp/$key.json',
+                        ),
+                        body: json.encode({
+                          'amount': updatedAmount,
+                          'note': updatedNote,
+                        }),
+                      );
+                    }
+                  });
+
+                  if (!dateExists) {
+                    final response = await http.post(
+                      url,
+                      headers: {
+                        'Content-Type': 'application/json',
                       },
-                    ),
-                  );
-                  // DbHelper dbHelper = DbHelper();
-                  // dbHelper.addData(amount!, selectedDate, type, note);
-                  Navigator.of(context).pop();
+                      body: json.encode(
+                        {
+                          'amount': amount,
+                          'note': note,
+                          'date': selectedDate.toString(),
+                          'type': "expense",
+                        },
+                      ),
+                    );
+
+                    if (response.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Color.fromARGB(255, 31, 151, 51),
+                          content: const Text(
+                            "Expense Added Successfully",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                      Navigator.pop(
+                          context); // Navigate back to the previous screen
+                    } else {
+                      print('Failed to add expense');
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blue,
+                        content: const Text(
+                          "Expense Updated Successfully",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                    Navigator.pop(
+                        context); // Navigate back to the previous screen
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red[700],
                       content: const Text(
-                        "Please enter a valid Amount !",
+                        "Please enter a valid amount",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,

@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'User Name',
-                  hintText: 'Enter Your Name',
+                  labelText: 'Email',
+                  hintText: 'Enter Your Email',
                 ),
               ),
               const SizedBox(
@@ -101,38 +101,43 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 10,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  _getData();
-                },
-                child: const Text("Login"),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUpScreen(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _getData();
+                    },
+                    child: const Text("Login"),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("SignUp"),
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: Text("Forgot password"),
                     ),
-                  );
-                },
-                child: const Text("SignUp"),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResetPasswordScreen(),
-                      ),
-                    );
-                  },
-                  child: Text("Forgot password"),
-                ),
+                  )
+                ],
               )
             ],
           ),

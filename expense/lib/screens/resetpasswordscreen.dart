@@ -46,7 +46,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         );
 
         if (updateResponse.statusCode == 200) {
-          print('Password updated successfully');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Color.fromARGB(255, 31, 151, 51),
+              content: const Text(
+                "Password Updated Succesfully",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          );
           Navigator.pop(context); // Navigate back to the login screen
         } else {
           print('Failed to update password');
@@ -75,7 +86,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Reset Password'),
       ),
       body: Container(

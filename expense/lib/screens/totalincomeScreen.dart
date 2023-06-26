@@ -193,7 +193,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
             child: TextButton(
               onPressed: () {
                 _selectDate(context);
-                //
+
                 // to make sure that no keyboard is shown after selecting Date
                 FocusScope.of(context).unfocus();
               },
