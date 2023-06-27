@@ -5,6 +5,7 @@ import 'package:expense/screens/totalincomeScreen.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:chart_sparkline/chart_sparkline.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -18,11 +19,16 @@ class _HomeScreenState extends State<HomeScreen> {
   int totalIncome = 0;
   int totalExpense = 0;
   int totalSavings = 0;
+  int ti = 0;
+  int te = 0;
+  List<double> di = [];
+  List<double> de = [];
 
   @override
   void initState() {
     super.initState();
     _getData();
+    // _getDailyData();
     print('$totalIncome');
   }
 
@@ -35,16 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
       print(data);
       num totalIncomeAmount = 0;
       num totalExpenseAmount = 0;
+      List<double> dailyIncome = [];
+      List<double> dailyExpense = [];
 
       data.values.forEach((value) {
         if (value['type'] == 'income' &&
             value['amount'] != null &&
             value['amount'] is num) {
           totalIncomeAmount += (value['amount'] as num).toInt();
+          dailyIncome.add((value['amount'] as num).toDouble());
         } else if (value['type'] == 'expense' &&
             value['amount'] != null &&
             value['amount'] is num) {
           totalExpenseAmount += (value['amount'] as num).toInt();
+          dailyExpense.add((value['amount'] as num).toDouble());
         } else {
           print('Invalid or null amount value');
         }
@@ -56,6 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Total Income: $totalIncome');
         print('total Expense: $totalExpense');
         totalSavings = totalIncome - totalExpense;
+        ti = 10000;
+        te = 300;
+        // di = [20.0, 200.0, 300.0];
+        // de = [2.0, 20.0, 30.0];
+        di = dailyIncome;
+        de = dailyExpense;
       });
     } else {
       print('Error: ${response.statusCode}');
@@ -94,10 +110,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Total Income',
                             style: TextStyle(fontSize: 20),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             '₹$totalIncome',
-                            style: TextStyle(fontSize: 24),
+                            style: const TextStyle(fontSize: 24),
                           ),
                         ],
                       ),
@@ -119,14 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Card(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             'Total Expense',
                             style: TextStyle(fontSize: 20),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             '\₹$totalExpense',
-                            style: TextStyle(fontSize: 24),
+                            style: const TextStyle(fontSize: 24),
                           ),
                         ],
                       ),
@@ -143,14 +159,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Card(
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       'Total Savings',
                       style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       '\₹$totalSavings',
-                      style: TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 24),
                     ),
                   ],
                 ),
@@ -165,25 +181,71 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () async {
                     await _getData();
                   },
-                  child: Text("Check Income"),
+                  child: const Text("Check Income"),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     await _getData();
                   },
-                  child: Text("Check Expense"),
+                  child: const Text("Check Expense"),
                 ),
               ],
             ),
             const Divider(),
 
-            const Text(
-              'Graph of Total Income and Total Expense will get added here',
-              style: TextStyle(fontSize: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Expanded(
+                child: Column(
+                  children: [
+                    Text('daily I:$di'),
+                    Text('daily E: $de'),
+                    Sparkline(
+                      gridLinelabelPrefix: '\ ₹',
+                      enableGridLines: true,
+                      pointsMode: PointsMode.all,
+                      data: di,
+                      lineColor: Colors.green,
+                      fillMode: FillMode.below,
+                      fillGradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.green,
+                          Colors.green.withOpacity(0.2),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Sparkline(
+                      gridLinelabelPrefix: '\ ₹',
+                      enableGridLines: true,
+                      data: de,
+                      lineColor: Colors.red,
+                      fillMode: FillMode.below,
+                      fillGradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.red,
+                          Colors.red.withOpacity(0.2),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+
+            // const Text(
+            //   'Graph of Total Income and Total Expense will get added here',
+            //   style: TextStyle(fontSize: 20),
+            // ),
             //  graph widget will be added here
           ],
         ),

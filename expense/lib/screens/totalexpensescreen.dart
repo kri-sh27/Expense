@@ -259,11 +259,11 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                   bool dateExists = false;
 
                   responseData.forEach((key, value) {
-                    if (value['date'] == selectedDate.toString()) {
+                    if (value['date'] == selectedDate.toString() &&
+                        value['type'] == "expense") {
                       dateExists = true;
-                      final existingAmount = value['amount'] as int;
-                      final updatedAmount =
-                          (existingAmount + amount!).toString();
+                      final int existingAmount = value['amount'] as int;
+                      final updatedAmount = (existingAmount + amount!);
                       final updatedNote = value['note'] + ", " + note;
 
                       http.patch(
@@ -297,9 +297,9 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
 
                     if (response.statusCode == 200) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           backgroundColor: Color.fromARGB(255, 31, 151, 51),
-                          content: const Text(
+                          content: Text(
                             "Expense Added Successfully",
                             style: TextStyle(
                               fontSize: 16.0,
@@ -315,9 +315,9 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         backgroundColor: Colors.blue,
-                        content: const Text(
+                        content: Text(
                           "Expense Updated Successfully",
                           style: TextStyle(
                             fontSize: 16.0,

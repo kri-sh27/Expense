@@ -1,5 +1,5 @@
 import 'package:expense/screens/homescreen.dart';
-import 'package:expense/screens/loginscreen.dart';
+// import 'package:expense/screens/loginscreen.dart';
 import 'package:expense/screens/splashscreen.dart';
 import 'package:flutter/material.dart';
 
