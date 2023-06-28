@@ -224,6 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Sparkline(
                       gridLinelabelPrefix: '\ ₹',
+                      pointsMode: PointsMode.all,
                       enableGridLines: true,
                       data: de,
                       lineColor: Colors.red,
