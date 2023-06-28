@@ -1,5 +1,4 @@
 import 'package:expense/screens/homescreen.dart';
-// import 'package:expense/screens/loginscreen.dart';
 import 'package:expense/screens/splashscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,8 +34,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // return
-    // return SplashScreen();
     return const HomeScreen(title: "Expense Tracker Home Screen");
   }
 }

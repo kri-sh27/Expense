@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getData();
-    // _getDailyData();
     print('$totalIncome');
   }
 
@@ -68,8 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         totalSavings = totalIncome - totalExpense;
         ti = 10000;
         te = 300;
-        // di = [20.0, 200.0, 300.0];
-        // de = [2.0, 20.0, 30.0];
+
         di = dailyIncome;
         de = dailyExpense;
       });
@@ -195,7 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const Divider(),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Expanded(
@@ -204,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text('daily I:$di'),
                     Text('daily E: $de'),
                     Sparkline(
-                      gridLinelabelPrefix: '\ ₹',
+                      gridLinelabelPrefix: '\₹',
                       enableGridLines: true,
                       pointsMode: PointsMode.all,
                       data: di,
@@ -219,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Sparkline(
@@ -242,12 +239,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-
-            // const Text(
-            //   'Graph of Total Income and Total Expense will get added here',
-            //   style: TextStyle(fontSize: 20),
-            // ),
-            //  graph widget will be added here
           ],
         ),
       ),

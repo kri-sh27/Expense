@@ -198,7 +198,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
             child: TextButton(
               onPressed: () {
                 _selectDate(context);
-                //
+
                 // to make sure that no keyboard is shown after selecting Date
                 FocusScope.of(context).unfocus();
               },
@@ -221,7 +221,6 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                     child: const Icon(
                       Icons.date_range,
                       size: 24.0,
-                      // color: Colors.grey[700],
                       color: Colors.white,
                     ),
                   ),

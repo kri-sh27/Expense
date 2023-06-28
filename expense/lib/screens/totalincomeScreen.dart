@@ -84,7 +84,6 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                 child: const Icon(
                   Icons.attach_money,
                   size: 24.0,
-                  // color: Colors.grey[700],
                   color: Colors.white,
                 ),
               ),
@@ -136,7 +135,6 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                     FilteringTextInputFormatter.digitsOnly,
                   ],
                   keyboardType: TextInputType.number,
-                  // textAlign: TextAlign.center,
                 ),
               ),
             ],
