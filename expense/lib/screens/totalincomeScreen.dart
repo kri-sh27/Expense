@@ -31,7 +31,8 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
     "Nov",
     "Dec"
   ];
-  Future<void> _selectDate(BuildContext context) async {
+  // for selecting date
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -48,10 +49,9 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // toolbarHeight: 0.0,
-          ),
-      backgroundColor: const Color(0xffe2e7ef),
-      //
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("Add Income"),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(
           12.0,
@@ -83,7 +83,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                 ),
                 child: const Text(
                   '\u20B9',
-                  style: TextStyle(fontSize: 24.0, color: Colors.white),
+                  style: TextStyle(fontSize: 24.0, color: Colors.deepPurple),
                 ),
               ),
               const SizedBox(
@@ -157,8 +157,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                 child: const Icon(
                   Icons.description,
                   size: 24.0,
-                  // color: Colors.grey[700],
-                  color: Colors.white,
+                  color: Colors.deepPurple,
                 ),
               ),
               const SizedBox(
@@ -189,7 +188,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
             height: 50.0,
             child: TextButton(
               onPressed: () {
-                _selectDate(context);
+                selectDate(context);
 
                 // to make sure that no keyboard is shown after selecting Date
                 FocusScope.of(context).unfocus();
@@ -213,8 +212,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                     child: const Icon(
                       Icons.date_range,
                       size: 24.0,
-                      // color: Colors.grey[700],
-                      color: Colors.white,
+                      color: Colors.deepPurple,
                     ),
                   ),
                   const SizedBox(
@@ -303,7 +301,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                       Navigator.pop(
                           context); // Navigate back to the previous screen
                     } else {
-                      print('Failed to add expense');
+                      print('Failed to add Income');
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -326,7 +324,7 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                     SnackBar(
                       backgroundColor: Colors.red[700],
                       content: const Text(
-                        "Please enter a valid amount",
+                        "Please enter a valid data",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,

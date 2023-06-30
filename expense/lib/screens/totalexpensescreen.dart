@@ -30,7 +30,9 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
     "Nov",
     "Dec"
   ];
-  Future<void> _selectDate(BuildContext context) async {
+
+  //for selecting date
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -47,10 +49,9 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // toolbarHeight: 0.0,
-          ),
-      backgroundColor: const Color(0xffe2e7ef),
-      //
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("Add Expense"),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(
           12.0,
@@ -84,7 +85,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                   Icons.attach_money,
                   size: 24.0,
                   // color: Colors.grey[700],
-                  color: Colors.white,
+                  color: Colors.deepPurple,
                 ),
               ),
               const SizedBox(
@@ -160,7 +161,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                   Icons.description,
                   size: 24.0,
                   // color: Colors.grey[700],
-                  color: Colors.white,
+                  color: Colors.deepPurple,
                 ),
               ),
               const SizedBox(
@@ -197,7 +198,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
             height: 50.0,
             child: TextButton(
               onPressed: () {
-                _selectDate(context);
+                selectDate(context);
 
                 // to make sure that no keyboard is shown after selecting Date
                 FocusScope.of(context).unfocus();
@@ -221,7 +222,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                     child: const Icon(
                       Icons.date_range,
                       size: 24.0,
-                      color: Colors.white,
+                      color: Colors.deepPurple,
                     ),
                   ),
                   const SizedBox(
@@ -333,7 +334,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                     SnackBar(
                       backgroundColor: Colors.red[700],
                       content: const Text(
-                        "Please enter a valid amount",
+                        "Please enter a valid Data",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,

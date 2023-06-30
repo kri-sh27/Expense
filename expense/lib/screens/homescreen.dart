@@ -27,23 +27,28 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getData();
-    dataList;
-    print('$totalIncome');
+    getData();
+
+    // print('$totalIncome');
   }
 
-  Future<void> _getData() async {
+// get api for fetching data from firebase
+  Future<void> getData() async {
     final url = Uri.https(
         'expenseapp-25cd7-default-rtdb.firebaseio.com', 'expensapp.json');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print(data);
+      // print(data);
       num totalIncomeAmount = 0;
       num totalExpenseAmount = 0;
       List<double> dailyIncome = [];
       List<double> dailyExpense = [];
 
+/*totalIncomeAmount stores Addition of all income and dailyIncome store income in list
+ which is further used for ploting graphh*/
+      /*totalExpenseAmount stores Addition of all expense and dailyExense store expense in list
+ which is further used for ploting graphh*/
       data.values.forEach((value) {
         if (value['type'] == 'income' &&
             value['amount'] != null &&
@@ -60,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
+//this newDataList for displying all transation
       List<Map<String, dynamic>> newDataList = [];
       data.forEach((key, value) {
         newDataList.add({
@@ -72,12 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         totalIncome = totalIncomeAmount.toInt();
         totalExpense = totalExpenseAmount.toInt();
-        print('Total Income: $totalIncome');
-        print('total Expense: $totalExpense');
+        // print('Total Income: $totalIncome');
+        // print('total Expense: $totalExpense');
         totalSavings = totalIncome - totalExpense;
 
         dataList = newDataList;
-        print(dataList);
+        // print(dataList);
         di = dailyIncome;
         de = dailyExpense;
       });
@@ -163,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               InkWell(
                 onTap: () async {
-                  await _getData();
+                  await getData();
                 },
                 child: Card(
                   child: Column(
@@ -189,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      await _getData();
+                      await getData();
                     },
                     child: const Text("Check Income"),
                   ),
@@ -198,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _getData();
+                      await getData();
                     },
                     child: const Text("Check Expense"),
                   ),
