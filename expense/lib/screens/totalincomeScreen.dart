@@ -48,8 +48,8 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 0.0,
-      ),
+          // toolbarHeight: 0.0,
+          ),
       backgroundColor: const Color(0xffe2e7ef),
       //
       body: ListView(
@@ -81,10 +81,9 @@ class _TotalIncomeScreenState extends State<TotalIncomeScreen> {
                 padding: const EdgeInsets.all(
                   12.0,
                 ),
-                child: const Icon(
-                  Icons.attach_money,
-                  size: 24.0,
-                  color: Colors.white,
+                child: const Text(
+                  '\u20B9',
+                  style: TextStyle(fontSize: 24.0, color: Colors.white),
                 ),
               ),
               const SizedBox(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expense/screens/alltransactionlistscreen.dart';
 import 'package:expense/screens/totalexpensescreen.dart';
 import 'package:expense/screens/totalincomeScreen.dart';
 import 'package:http/http.dart' as http;
@@ -19,15 +20,15 @@ class _HomeScreenState extends State<HomeScreen> {
   int totalIncome = 0;
   int totalExpense = 0;
   int totalSavings = 0;
-  int ti = 0;
-  int te = 0;
   List<double> di = [];
   List<double> de = [];
+  List<Map<String, dynamic>> dataList = [];
 
   @override
   void initState() {
     super.initState();
     _getData();
+    dataList;
     print('$totalIncome');
   }
 
@@ -59,15 +60,24 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
+      List<Map<String, dynamic>> newDataList = [];
+      data.forEach((key, value) {
+        newDataList.add({
+          'amount': value['amount'],
+          'type': value['type'],
+          'note': value['note']
+        });
+      });
+
       setState(() {
         totalIncome = totalIncomeAmount.toInt();
         totalExpense = totalExpenseAmount.toInt();
         print('Total Income: $totalIncome');
         print('total Expense: $totalExpense');
         totalSavings = totalIncome - totalExpense;
-        ti = 10000;
-        te = 300;
 
+        dataList = newDataList;
+        print(dataList);
         di = dailyIncome;
         de = dailyExpense;
       });
@@ -84,14 +94,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
+      body: SingleChildScrollView(
+        child: Expanded(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 60,
+                  ),
+                  InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -117,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: InkWell(
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -146,60 +158,57 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            InkWell(
-              onTap: () async {
-                await _getData();
-              },
-              child: Card(
-                child: Column(
-                  children: [
-                    const Text(
-                      'Total Savings',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '\₹$totalSavings',
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ],
+                ],
+              ),
+              const SizedBox(height: 16),
+              InkWell(
+                onTap: () async {
+                  await _getData();
+                },
+                child: Card(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Total Savings',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '\₹$totalSavings',
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await _getData();
-                  },
-                  child: const Text("Check Income"),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await _getData();
-                  },
-                  child: const Text("Check Expense"),
-                ),
-              ],
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Expanded(
+              const SizedBox(height: 16),
+              const Divider(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _getData();
+                    },
+                    child: const Text("Check Income"),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _getData();
+                    },
+                    child: const Text("Check Expense"),
+                  ),
+                ],
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text('daily I:$di'),
-                    Text('daily E: $de'),
                     Sparkline(
                       gridLinelabelPrefix: '\₹',
                       enableGridLines: true,
@@ -235,11 +244,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AllTransactionList(dataList: dataList),
+                          ),
+                        );
+                      },
+                      child: const Card(
+                        child: Column(
+                          children: [
+                            Text(
+                              'All transactions ',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

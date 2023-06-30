@@ -47,8 +47,8 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 0.0,
-      ),
+          // toolbarHeight: 0.0,
+          ),
       backgroundColor: const Color(0xffe2e7ef),
       //
       body: ListView(

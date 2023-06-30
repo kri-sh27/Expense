@@ -19,7 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _getData();
   }
 
   Future<void> _getData() async {
@@ -36,18 +35,29 @@ class _LoginScreenState extends State<LoginScreen> {
             value['password'] == passwordController.text) {
           credentialsMatch = true;
         } else {
-          print('Invalid or null amount value');
+          print("Invalid or null value");
         }
       });
       if (credentialsMatch) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: "Myhomepage"),
+            builder: (context) => const MyHomePage(title: "Myhomepage"),
           ),
         );
       } else {
-        print('invalid credentials');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red[700],
+            content: const Text(
+              "Invalid Credentials!",
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
       }
     } else {
       print('Error: ${response.statusCode}');
